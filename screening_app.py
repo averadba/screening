@@ -38,9 +38,15 @@ def create_results_table(tp, fn, fp, tn, prev):
 # Streamlit app code starts here
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
-#GithubIcon {visibility: hidden;}
 footer {visibility: hidden;}
 </style> """, unsafe_allow_html=True)
+
+hide_github_icon = """
+#GithubIcon {
+  visibility: hidden;
+}
+"""
+st.markdown(hide_github_icon, unsafe_allow_html=True)
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
