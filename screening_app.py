@@ -46,6 +46,30 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 st.title("Screening Test Performance Calculator")
 st.write("*By:* A. Vera")
 
+st.markdown("""
+### Description:
+This app allows users to compute important metrics related to the performance of a screening test. 
+By inputting the counts of true positives, false positives, true negatives, and false negatives, 
+users can obtain metrics like specificity, sensitivity, positive predictive value (PPV), 
+and negative predictive value (NPV), along with their 95% confidence intervals.
+
+### Quick Instructions:
+1. Edit the table to input your test results.
+2. Enter the disease prevalence rate.
+3. Click on the "Compute" button to view the results and charts.
+
+### Formulas Used:
+- **Specificity**: \( \frac{\text{True Negatives}}{\text{True Negatives} + \text{False Positives}} \)
+- **Sensitivity**: \( \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}} \)
+- **Positive Predictive Value (PPV)**: Formula considering prevalence to adjust the value.
+- **Negative Predictive Value (NPV)**: Formula considering prevalence to adjust the value.
+- **95% Confidence Interval for Proportion**: \( p \pm Z \times \sqrt{\frac{p(1-p)}{n}} \)
+    - Where:
+        - \( p \) is the proportion (e.g., sensitivity, specificity).
+        - \( Z \) is the Z-score (for a 95% confidence interval, \( Z \approx 1.96 \)).
+        - \( n \) is the total number of observations.
+""")
+
 # Create an editable 2x2 table for user input
 initial_data = {
     "Actual Positive": [0, 0],
