@@ -1,7 +1,41 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+import math
 
+# Function to compute the 95% confidence interval for a proportion
+def compute_confidence_interval(p, n):
+    """Compute the 95% confidence interval for a proportion."""
+    Z = 1.96  # Z-score for 95% CI
+    delta = Z * math.sqrt(p * (1 - p) / n)
+    return (p - delta, p + delta)
+
+# Function to create a results table
+def create_results_table(tp, fn, fp, tn, prev):
+    # Compute metrics
+    specificity = tn / (tn + fp)
+    sensitivity = tp / (tp + fn)
+    ppv = (tp / (tp + fp)) * (prev / 100) / ((tp / (tp + fp)) * (prev / 100) + (fn / (tn + fn)) * ((100 - prev) / 100))
+    npv = (tn / (tn + fn)) * ((100 - prev) / 100) / ((tn / (tn + fn)) * ((100 - prev) / 100) + (fp / (tp + fp)) * (prev / 100))
+    
+    # Compute 95% confidence intervals
+    specificity_ci = compute_confidence_interval(specificity, tn + fp)
+    sensitivity_ci = compute_confidence_interval(sensitivity, tp + fn)
+    ppv_ci = compute_confidence_interval(ppv, tp + fp)
+    npv_ci = compute_confidence_interval(npv, tn + fn)
+    
+    # Create a dataframe to display results in a table format
+    data = {
+        "Metric": ["Specificity", "Sensitivity", "Positive Predictive Value", "Negative Predictive Value"],
+        "Value": [specificity, sensitivity, ppv, npv],
+        "95% CI Lower Bound": [specificity_ci[0], sensitivity_ci[0], ppv_ci[0], npv_ci[0]],
+        "95% CI Upper Bound": [specificity_ci[1], sensitivity_ci[1], ppv_ci[1], npv_ci[1]]
+    }
+    df_results = pd.DataFrame(data)
+    
+    return df_results
+
+# Streamlit app code starts here
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
@@ -30,20 +64,8 @@ tn = df_edited.loc["Test Negative", "Actual Negative"]
 prev = st.number_input("Enter Prevalence Rate (in %):")
 
 if st.button("Compute"):
-
-    # Computing and displaying test specificity
-    specificity = tn / (tn + fp)
-    st.write(f"Specificity: {specificity:.2f}")
-
-    # Computing and displaying test sensitivity
-    sensitivity = tp / (tp + fn)
-    st.write(f"Sensitivity: {sensitivity:.2f}")
-
-    # Computing and displaying positive and negative predictive values
-    ppv = (tp / (tp + fp)) * (prev / 100) / ((tp / (tp + fp)) * (prev / 100) + (fn / (tn + fn)) * ((100 - prev) / 100))
-    npv = (tn / (tn + fn)) * ((100 - prev) / 100) / ((tn / (tn + fn)) * ((100 - prev) / 100) + (fp / (tp + fp)) * (prev / 100))
-    st.write(f"Positive Predictive Value: {ppv:.2f}")
-    st.write(f"Negative Predictive Value: {npv:.2f}")
+    results_table = create_results_table(tp, fn, fp, tn, prev)
+    st.table(results_table)
 
     # Creating charts for PPV and NPV
     prev_list = list(range(1, 101))
