@@ -20,7 +20,7 @@ initial_data = {
 index = ["Test Positive", "Test Negative"]
 df = pd.DataFrame(initial_data, index=index)
 
-with st.beta_container():
+with st.container():
     st.table(df)
 
 # Get values from the editable table
