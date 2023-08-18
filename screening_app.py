@@ -59,11 +59,14 @@ and negative predictive value (NPV), along with their 95% confidence intervals.
 3. Click on the "Compute" button to view the results and charts.
 
 ### Formulas Used:
-- **Specificity**: \( \frac{\text{True Negatives}}{\text{True Negatives} + \text{False Positives}} \)
-- **Sensitivity**: \( \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}} \)
+- **Specificity**: 
+\[ \text{Specificity} = \frac{\text{True Negatives}}{\text{True Negatives} + \text{False Positives}} \]
+- **Sensitivity**: 
+\[ \text{Sensitivity} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}} \]
 - **Positive Predictive Value (PPV)**: Formula considering prevalence to adjust the value.
 - **Negative Predictive Value (NPV)**: Formula considering prevalence to adjust the value.
-- **95% Confidence Interval for Proportion**: \( p \pm Z \times \sqrt{\frac{p(1-p)}{n}} \)
+- **95% Confidence Interval for Proportion**: 
+\[ CI = p \pm Z \times \sqrt{\frac{p(1-p)}{n}} \]
     - Where:
         - \( p \) is the proportion (e.g., sensitivity, specificity).
         - \( Z \) is the Z-score (for a 95% confidence interval, \( Z \approx 1.96 \)).
