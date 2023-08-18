@@ -12,50 +12,36 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 st.title("Screening Test Performance Calculator")
 st.write("*By:* A. Vera")
 
-# Create an editable 2x2 table for user input
-initial_data = {
-    "Actual Positive": [0, 0],
-    "Actual Negative": [0, 0]
-}
-index = ["Test Positive", "Test Negative"]
-df = pd.DataFrame(initial_data, index=index)
-df_edited = st.experimental_data_editor(df) #Editable Dataframe
+# Create a 2x2 table
+df = pd.DataFrame(columns=["Actual Positive", "Actual Negative"])
+df.loc["Test Positive"] = [st.number_input("True Positives:", step=1, format="%d")]
+df.loc["Test Negative"] = [st.number_input("True Negatives:", step=1, format="%d")]
 
-# with st.beta_container():
-#     st.table(df)
-
-# Get values from the editable table
-tp = df.loc["Test Positive", "Actual Positive"]
-fn = df.loc["Test Negative", "Actual Positive"]
-fp = df.loc["Test Positive", "Actual Negative"]
-tn = df.loc["Test Negative", "Actual Negative"]
-
+# Get prevalence rate
 prev = st.number_input("Enter Prevalence Rate (in %):")
 
 if st.button("Compute"):
-    # Displaying 2X2 contingency table
-    st.write("Contingency Table")
-    cont_tbl = pd.DataFrame({
-        "Actual Positive": [tp, fn],
-        "Actual Negative": [fp, tn]
-    }, index=["Test Positive", "Test Negative"])
-    st.write(cont_tbl)
+    # Compute test statistics
+    tp = df.loc["Test Positive", 0]
+    fn = df.loc["Test Positive", 1]
+    fp = df.loc["Test Negative", 0]
+    tn = df.loc["Test Negative", 1]
 
-    # Computing and displaying test specificity
     specificity = tn / (tn + fp)
-    st.write(f"Specificity: {specificity:.2f}")
-
-    # Computing and displaying test sensitivity
     sensitivity = tp / (tp + fn)
-    st.write(f"Sensitivity: {sensitivity:.2f}")
-
-    # Computing and displaying positive and negative predictive values
     ppv = (tp / (tp + fp)) * (prev / 100) / ((tp / (tp + fp)) * (prev / 100) + (fn / (tn + fn)) * ((100 - prev) / 100))
     npv = (tn / (tn + fn)) * ((100 - prev) / 100) / ((tn / (tn + fn)) * ((100 - prev) / 100) + (fp / (tp + fp)) * (prev / 100))
+
+    # Display results
+    st.write("Contingency Table")
+    st.write(df)
+
+    st.write(f"Specificity: {specificity:.2f}")
+    st.write(f"Sensitivity: {sensitivity:.2f}")
     st.write(f"Positive Predictive Value: {ppv:.2f}")
     st.write(f"Negative Predictive Value: {npv:.2f}")
 
-    # Creating charts for PPV and NPV
+    # Create charts for PPV and NPV
     prev_list = list(range(1, 101))
     ppv_list = []
     npv_list = []
@@ -69,7 +55,7 @@ if st.button("Compute"):
         "Negative Predictive Value": npv_list
     })
 
-    # Creating Altair charts
+    # Create Altair charts
     ppv_chart = alt.Chart(data).mark_line(color='red').encode(
         x=alt.X('Prevalence Rate', title='Prevalence Rate (%)'),
         y=alt.Y('Positive Predictive Value', title='Positive Predictive Value')
@@ -80,6 +66,6 @@ if st.button("Compute"):
         y=alt.Y('Negative Predictive Value', title='Negative Predictive Value')
     ).properties(title='NPV vs Prevalence Rate')
 
-    # Displaying charts
+    # Display charts
     st.write(ppv_chart)
     st.write(npv_chart)
