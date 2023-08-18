@@ -73,6 +73,8 @@ CI = p ± Z × √(p(1-p)/n)
         - n is the total number of observations.
 """)
 
+st.divider()
+
 # Create an editable 2x2 table for user input
 initial_data = {
     "Actual Positive": [0, 0],
