@@ -12,22 +12,15 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 st.title("Screening Test Performance Calculator")
 st.write("*By:* A. Vera")
 
-# Create an editable 2x2 table for user input
-initial_data = {
-    "Actual Positive": [0, 0],
-    "Actual Negative": [0, 0]
-}
-index = ["Test Positive", "Test Negative"]
-df = pd.DataFrame(initial_data, index=index)
-
-with st.container():
-    st.table(df)
-
-# Get values from the editable table
-tp = df.loc["Test Positive", "Actual Positive"]
-fn = df.loc["Test Negative", "Actual Positive"]
-fp = df.loc["Test Positive", "Actual Negative"]
-tn = df.loc["Test Negative", "Actual Negative"]
+# Create a pseudo-table for user input
+st.write("Enter values for the contingency table:")
+st.write("|                 | Actual Positive | Actual Negative |")
+st.write("|-----------------|-----------------|-----------------|")
+tp = int(st.text_input("Test Positive (Actual Positive):", "0"))
+fp = int(st.text_input("Test Positive (Actual Negative):", "0"))
+st.write("|-----------------|-----------------|-----------------|")
+fn = int(st.text_input("Test Negative (Actual Positive):", "0"))
+tn = int(st.text_input("Test Negative (Actual Negative):", "0"))
 
 prev = st.number_input("Enter Prevalence Rate (in %):")
 
