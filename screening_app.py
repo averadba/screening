@@ -37,6 +37,7 @@ def create_results_table(tp, fn, fp, tn, prev):
 
 # Streamlit app code starts here
 st.markdown(""" <style>
+#GithubIcon {visibility: hidden;}
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 </style> """, unsafe_allow_html=True)
@@ -44,11 +45,11 @@ footer {visibility: hidden;}
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 st.title("Screening Test Performance Calculator")
-st.markdown("*By:* A. Vera - [Contact me](mailto:alexisv@sanjuanbautista.edu)")
+st.markdown("*By:* Dr. Alexis Vera - [Contact me](mailto:alexisv@sanjuanbautista.edu)")
 
 
 st.markdown("""
-### Description:
+
 This app allows users to compute important metrics related to the performance of a screening test. 
 By inputting the counts of true positives, false positives, true negatives, and false negatives, 
 users can obtain metrics like specificity, sensitivity, positive predictive value (PPV), 
