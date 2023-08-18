@@ -19,7 +19,7 @@ initial_data = {
 }
 index = ["Test Positive", "Test Negative"]
 df = pd.DataFrame(initial_data, index=index)
-df_edited = st.data_editor(df) #Editable Dataframe
+df_edited = st.experimental_data_editor(df) #Editable Dataframe
 
 # with st.beta_container():
 #     st.table(df)
