@@ -25,21 +25,21 @@ df_edited = st.data_editor(df) #Creating editable table
 #     st.table(df)
 
 # Get values from the editable table
-tp = df.loc["Test Positive", "Actual Positive"]
-fn = df.loc["Test Negative", "Actual Positive"]
-fp = df.loc["Test Positive", "Actual Negative"]
-tn = df.loc["Test Negative", "Actual Negative"]
+tp = df_edited.loc["Test Positive", "Actual Positive"]
+fn = df_edited.loc["Test Negative", "Actual Positive"]
+fp = df_edited.loc["Test Positive", "Actual Negative"]
+tn = df_edited.loc["Test Negative", "Actual Negative"]
 
 prev = st.number_input("Enter Prevalence Rate (in %):")
 
 if st.button("Compute"):
     # Displaying 2X2 contingency table
-    st.write("Contingency Table")
-    cont_tbl = pd.DataFrame({
-        "Actual Positive": [tp, fn],
-        "Actual Negative": [fp, tn]
-    }, index=["Test Positive", "Test Negative"])
-    st.write(cont_tbl)
+    # st.write("Contingency Table")
+    # cont_tbl = pd.DataFrame({
+    #     "Actual Positive": [tp, fn],
+    #     "Actual Negative": [fp, tn]
+    # }, index=["Test Positive", "Test Negative"])
+    # st.write(cont_tbl)
 
     # Computing and displaying test specificity
     specificity = tn / (tn + fp)
