@@ -12,11 +12,23 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 st.title("Screening Test Performance Calculator")
 st.write("*By:* A. Vera")
 
-# Getting user input
-tp = st.number_input("Enter True Positives:", step=1, format="%d")
-tn = st.number_input("Enter True Negatives:", step=1, format="%d")
-fp = st.number_input("Enter False Positives:", step=1, format="%d")
-fn = st.number_input("Enter False Negatives:", step=1, format="%d")
+# Create an editable 2x2 table for user input
+initial_data = {
+    "Actual Positive": [0, 0],
+    "Actual Negative": [0, 0]
+}
+index = ["Test Positive", "Test Negative"]
+df = pd.DataFrame(initial_data, index=index)
+
+with st.beta_container():
+    st.table(df)
+
+# Get values from the editable table
+tp = df.loc["Test Positive", "Actual Positive"]
+fn = df.loc["Test Negative", "Actual Positive"]
+fp = df.loc["Test Positive", "Actual Negative"]
+tn = df.loc["Test Negative", "Actual Negative"]
+
 prev = st.number_input("Enter Prevalence Rate (in %):")
 
 if st.button("Compute"):
