@@ -45,7 +45,7 @@ footer {visibility: hidden;}
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 st.title("Screening Test Performance Calculator")
-st.markdown("*By:* Dr. Alexis Vera - [Contact me](mailto:alexisv@sanjuanbautista.edu)")
+st.markdown("*By:* Dr. Alexis Vera - [Contact me](mailto:alexisvera@gmail.com)")
 
 
 st.markdown("""
